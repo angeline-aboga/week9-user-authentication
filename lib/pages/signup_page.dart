@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
+
+// import 'package:firebase_core/firebase_core.dart';
+// import '/firebase_options.dart';
+
+// await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+// );
+
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -11,6 +20,10 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
+  
+  String? firstName;
+  String? lastName;
+  
   String? email;
   String? password;
 
@@ -25,7 +38,7 @@ class _SignUpState extends State<SignUpPage> {
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [heading, emailField, passwordField, submitButton],
+                children: [heading, firstNameField, lastNameField, emailField, passwordField, submitButton],
               ),
             )),
       ),
@@ -40,16 +53,54 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
+    Widget get firstNameField => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: TextFormField(
+          decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              label: Text("First Name"),
+              hintText: "Enter first name"),
+          onSaved: (value) => setState(() => firstName = value),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please enter your first name";
+            }
+            return null;
+          },
+        ),
+      );
+
+      Widget get lastNameField => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: TextFormField(
+          decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              label: Text("Last Name"),
+              hintText: "Enter last name"),
+          onSaved: (value) => setState(() => lastName = value),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please enter your last name";
+            }
+            return null;
+          },
+        ),
+      );
+
   Widget get emailField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
+          // inputFormatters: <TextInputFormatter>[
+          //   FilteringTextInputFormatter.allow(RegExp(r'^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})'))
+          // ],
           decoration: const InputDecoration(
               border: OutlineInputBorder(),
               label: Text("Email"),
               hintText: "Enter a valid email"),
           onSaved: (value) => setState(() => email = value),
           validator: (value) {
-            if (value == null || value.isEmpty) {
+            final regex = RegExp(r'^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})');
+            if (value == null || value.isEmpty || !regex.hasMatch(value)) {
               return "Please enter a valid email format";
             }
             return null;
@@ -63,12 +114,14 @@ class _SignUpState extends State<SignUpPage> {
           decoration: const InputDecoration(
               border: OutlineInputBorder(),
               label: Text("Password"),
-              hintText: "At least 8 characters"),
+              hintText: "At least 6 characters"),
           obscureText: true,
           onSaved: (value) => setState(() => password = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return "Please enter a valid password";
+            } else if (value.length<6) {
+              return "Password must at least be 6 characters";
             }
             return null;
           },

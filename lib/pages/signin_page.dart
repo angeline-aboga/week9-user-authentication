@@ -19,6 +19,7 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -58,10 +59,10 @@ class _SignInPageState extends State<SignInPage> {
               hintText: "juandelacruz09@gmail.com"),
           onSaved: (value) => setState(() => email = value),
           validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Please enter your email";
+            final regex = RegExp(r'^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})');
+            if (value == null || value.isEmpty || !regex.hasMatch(value)) {
+              return "Please enter a valid email format";
             }
-            return null;
           },
         ),
       );
@@ -77,7 +78,9 @@ class _SignInPageState extends State<SignInPage> {
           onSaved: (value) => setState(() => password = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your password";
+              return "Please enter a valid password";
+            } else if (value.length<6) {
+              return "Password must at least be 6 characters";
             }
             return null;
           },
@@ -96,21 +99,27 @@ class _SignInPageState extends State<SignInPage> {
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
-          String? message = await context
+          // String? message = await context
+          //     .read<UserAuthProvider>()
+          //     .authService
+          //     .signIn(email!, password!);
+
+          await context
               .read<UserAuthProvider>()
               .authService
               .signIn(email!, password!);
 
-          print(message);
-          print(showSignInErrorMessage);
 
-          setState(() {
-            if (message != null && message.isNotEmpty) {
-              showSignInErrorMessage = true;
-            } else {
-              showSignInErrorMessage = false;
-            }
-          });
+          // print(message);
+          // print(showSignInErrorMessage);
+
+          // setState(() {
+          //   if (message != null && message.isNotEmpty) {
+          //     showSignInErrorMessage = true;
+          //   } else {
+          //     showSignInErrorMessage = false;
+          //   }
+          // });
         }
       },
       child: const Text("Sign In"));

@@ -1,41 +1,28 @@
-# CMSC 23 Week 9: User Authentication using Firebase
+# Week 8: Data Persistence Using Firebase
 
-## Getting Started
+**Name:** Trisha Angeline R. Aboga <br/>
+**Section:** U-1L <br/>
+**Student number:** 2022 - 04177 <br/>
 
-Please follow the following steps:
+## Code Description
 
-- Fork this repository
-- Clone the forked repository
-- Set up Firebase and Cloud Firestore
+Added authentication, form fields in signup, and text field highlight during form validation to the todos app.
 
-## Introduction
+## Things you did in the code
 
-This is a simple todo app that's connected to a Firebase Cloud Firestore. It can perform user authentication using Firebase.
+I just added what I learned from Week 4.
 
-## Folder Structure
+## Challenges encountered
 
-```
-lib
-├───api
-│   └───firebase_auth_api.dart*
-│   └───firebase_todo_api.dart
-├───models
-│   └───todo_model.dart
-├───pages
-│   ├───home_page.dart
-│   └───modal_todo.dart
-│   └───signin_page.dart
-│   └───signup_page.dart
-│   └───todo_page.dart
-│   └───user_details_page.dart
-├───providers
-│   └───auth_provider.dart*
-│   └───todo_provider.dart
-└───main.dart
+Fixing the uploaded code based on the handout caused a major error. It seemingly works fine but after successfully signing up/in, the app gets stuck with the circular progress indicator. To be able to see the added widgets and validators, I had to comment out the todos builder which is a massive handicap since it confused me a lot and took a lot of time. I don't know how to fix it.
 
-* - to be added later
-```
+## Commit Log
 
-- Models - contains the data model used
-- Pages - contains the pages/widgets used
-- Providers - contains the Todo provider that contains the data and method logic
+1. Initial commit - uploaded files
+2. edited README file
+
+## References
+
+- https://stackoverflow.com/questions/63601286/how-to-check-one-string-contains-another-sub-string-in-dart-flutter - check if a substring/character is in a string
+- https://stackoverflow.com/questions/69514483/when-i-use-filteringtextinputformatter-allow-itremoves-the-entire-value-of-tex - RegExp format
+- https://www.geeksforgeeks.org/write-regular-expressions/ - email regex
